@@ -1,4 +1,4 @@
-package com.sumin.vknewsclient.ui.screen.login
+package com.sumin.vknewsclient.ui.screen.main.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

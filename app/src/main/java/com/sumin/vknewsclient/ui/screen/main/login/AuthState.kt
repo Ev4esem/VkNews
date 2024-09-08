@@ -1,4 +1,4 @@
-package com.sumin.vknewsclient
+package com.sumin.vknewsclient.ui.screen.main.login
 
 sealed class AuthState {
 

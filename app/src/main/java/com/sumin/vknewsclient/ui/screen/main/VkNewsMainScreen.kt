@@ -1,4 +1,4 @@
-package com.sumin.vknewsclient.ui.screen
+package com.sumin.vknewsclient.ui.screen.main
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.BottomNavigation
@@ -17,9 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.sumin.vknewsclient.navigation.AppNavGraph
-import com.sumin.vknewsclient.navigation.NavigationItem
 import com.sumin.vknewsclient.navigation.rememberNavigationState
 import com.sumin.vknewsclient.ui.screen.comments.CommentsScreen
+import com.sumin.vknewsclient.ui.screen.news.NewsFeedScreen
 
 @Composable
 fun MainScreen() {
@@ -64,7 +64,7 @@ fun MainScreen() {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             newsFeedScreenContent = {
-                HomeScreen(
+                NewsFeedScreen(
                     paddingValues = paddingValues,
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)

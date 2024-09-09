@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sumin.vknewsclient.domain.FeedPost
+import com.sumin.vknewsclient.domain.model.FeedPost
 
 @Composable
 fun NewsFeedScreen(

@@ -1,7 +1,5 @@
 package com.sumin.vknewsclient.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -9,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.google.gson.Gson
-import com.sumin.vknewsclient.domain.FeedPost
+import com.sumin.vknewsclient.domain.model.FeedPost
 
 fun NavGraphBuilder.homeScreenNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,

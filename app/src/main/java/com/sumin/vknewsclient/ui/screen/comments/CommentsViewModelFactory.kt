@@ -2,7 +2,7 @@ package com.sumin.vknewsclient.ui.screen.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sumin.vknewsclient.domain.FeedPost
+import com.sumin.vknewsclient.domain.model.FeedPost
 
 
 class CommentsViewModelFactory(

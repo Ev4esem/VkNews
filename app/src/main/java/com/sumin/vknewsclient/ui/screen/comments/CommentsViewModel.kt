@@ -3,8 +3,8 @@ package com.sumin.vknewsclient.ui.screen.comments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sumin.vknewsclient.domain.FeedPost
-import com.sumin.vknewsclient.domain.PostComment
+import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.PostComment
 
 class CommentsViewModel(
     feedPost: FeedPost

@@ -12,8 +12,9 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sumin.vknewsclient.domain.FeedPost
+import com.sumin.vknewsclient.domain.model.FeedPost
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -59,11 +60,23 @@ fun FeedPosts(
                     onCommentClickListener = {
                         onCommentClickListener(feedPost)
                     },
-                    onLikeClickListener = { statisticItem ->
-                        viewModel.updateCount(feedPost, statisticItem)
+                    onLikeClickListener = { _ ->
+                        viewModel.changeLikeStatus(feedPost)
                     },
                 )
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun PreviewFeedPosts() {
+    PostCard(
+        feedPost = FeedPost.DEFAULT,
+        onLikeClickListener = {},
+        onShareClickListener = {},
+        onViewsClickListener = {},
+        onCommentClickListener = {}
+    )
 }

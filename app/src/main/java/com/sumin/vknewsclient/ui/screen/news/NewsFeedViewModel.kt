@@ -1,39 +1,42 @@
 package com.sumin.vknewsclient.ui.screen.news
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.sumin.vknewsclient.R
-import com.sumin.vknewsclient.domain.FeedPost
-import com.sumin.vknewsclient.domain.StatisticItem
-import com.sumin.vknewsclient.domain.StatisticType
+import androidx.lifecycle.viewModelScope
+import com.sumin.vknewsclient.data.repository.NewsFeedRepositoryImpl
+import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.StatisticItem
+import com.sumin.vknewsclient.domain.repository.NewsFeedRepository
+import kotlinx.coroutines.launch
 
-class NewsFeedViewModel : ViewModel() {
+class NewsFeedViewModel(
+    application: Application
+) : AndroidViewModel(application) {
 
-    private val sourceList = mutableListOf<FeedPost>().apply {
-        repeat(10) {
-            add(
-                FeedPost(
-                    id = it,
-                    communityName = "Rashid blod",
-                    timePost = "14:00",
-                    avatarResId = R.drawable.post_comunity_thumbnail,
-                    contentText = "Content text $it",
-                    contentImageResId = R.drawable.post_content_image,
-                    statistics = listOf(
-                        StatisticItem(StatisticType.VIEWS, 300),
-                        StatisticItem(StatisticType.LIKES, 400),
-                        StatisticItem(StatisticType.SHARES, 500),
-                        StatisticItem(StatisticType.COMMENTS, 100),
-                    )
-                )
-            )
-        }
-    }
-    private val initialState = NewsFeedScreenState.Posts(posts = sourceList)
+    private val initialState = NewsFeedScreenState.Initial
 
     private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
     val screenState: LiveData<NewsFeedScreenState> = _screenState
+    private val repository: NewsFeedRepository = NewsFeedRepositoryImpl(application)
+
+    init {
+        loadRecommendations()
+    }
+
+    fun changeLikeStatus(feedPost: FeedPost) {
+        viewModelScope.launch {
+            repository.changeLikeStatus(feedPost)
+            _screenState.value = NewsFeedScreenState.Posts(posts = repository.getFeedPosts())
+        }
+    }
+
+    private fun loadRecommendations() {
+        viewModelScope.launch {
+            _screenState.value = NewsFeedScreenState.Posts(posts = repository.loadRecommended())
+        }
+    }
 
     fun updateCount(feedPost: FeedPost, item: StatisticItem) {
         val currentState = screenState.value

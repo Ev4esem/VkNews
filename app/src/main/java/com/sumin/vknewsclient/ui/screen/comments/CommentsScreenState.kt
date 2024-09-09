@@ -1,7 +1,7 @@
 package com.sumin.vknewsclient.ui.screen.comments
 
-import com.sumin.vknewsclient.domain.FeedPost
-import com.sumin.vknewsclient.domain.PostComment
+import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.PostComment
 
 sealed class CommentsScreenState {
 

@@ -1,7 +1,8 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -49,37 +50,29 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.13.1'
-    // Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
-    // Compose
-    implementation(platform('androidx.compose:compose-bom:2024.06.00'))
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.material:material'
-    implementation 'androidx.compose.foundation:foundation'
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    //Livedata
-    implementation "androidx.compose.runtime:runtime-livedata:1.6.8"
-    // Activity
-    implementation 'androidx.activity:activity-compose:1.9.1'
-    //Navigation
-    implementation "androidx.navigation:navigation-compose:2.7.7"
-    // Vk sdk
-    implementation 'com.vk:android-sdk-core:4.1.0'
-    implementation 'com.vk:android-sdk-api:4.1.0'
-    // Retrofite
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.7.0")
-    // OkHttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
-    // Paging
-    implementation "androidx.paging:paging-compose:3.3.2"
-    implementation "androidx.paging:paging-runtime:3.3.2"
-    // Tests
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation libs.core.ktx
+    implementation libs.gson
+    implementation(platform(libs.compose.bom))
+    implementation libs.compose.material
+    implementation libs.compose.foundation
+    implementation libs.compose.ui
+    implementation libs.compose.ui.tooling.preview
+    implementation libs.compose.livedata
+    implementation libs.compose.activity
+    implementation libs.compose.navigation
+    implementation libs.compose.paging
+    implementation libs.compose.coil
+    implementation libs.paging.runtime
+    implementation libs.vk.sdk.core
+    implementation libs.vk.sdk.api
+    implementation libs.retrofit
+    implementation libs.retrofit.converter.gson
+    implementation libs.okhttp.logging.interceptor
+    implementation libs.room.ktx
+    implementation libs.room.paging
+    kapt libs.room.compiler
+
+    testImplementation libs.junit
+    androidTestImplementation libs.junit.ext
+    androidTestImplementation libs.espresso.core
 }

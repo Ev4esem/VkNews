@@ -1,0 +1,60 @@
+[versions]
+coreKtxVersion = "1.13.1"
+gsonVersion = "2.10.1"
+composeBomVersion = "2024.06.00"
+composeActivityVersion = "1.9.1"
+composeLiveDataVersion = "1.6.8"
+vkApiVersion = "4.1.0"
+composeNavigationVersion = "2.7.7"
+retrofitVersion = "2.9.0"
+composeCoilVersion = "2.7.0"
+okhttpInterceptorVersion = "4.12.0"
+composePagingVersion = "3.3.2"
+roomVersion = "2.6.1"
+espressoVersion = "3.6.1"
+junitVersion = "4.13.2"
+junitExtVersion = "1.2.1"
+androidGradlePlugin = "7.2.1"
+jetbrainsKotlinJvm = "1.9.24"
+kotlin = "1.9.24"
+[libraries]
+
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
+# Gson
+gson = { group = "com.google.code", name = "gson", version.ref = "gsonVersion" }
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBomVersion" }
+compose-material = { group = "androidx.compose.material3", name = "material3" }
+compose-foundation = { group = "androidx.compose.material3", name = "foundation" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivityVersion" }
+compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "composeLiveDataVersion" }
+# Vk api
+vk-sdk-core = { group = "com.vk", name = "android-sdk-core", version.ref = "vkApiVersion" }
+vk-sdk-api = { group = "com.vk", name = "android-sdk-api", version.ref = "vkApiVersion" }
+# Navigation
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigationVersion" }
+# Retrofite
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+# Coil
+compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoilVersion" }
+# OkHttp
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpInterceptorVersion" }
+# Paging
+compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "composePagingVersion" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "composePagingVersion" }
+# Room
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "roomVersion" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+# Tests
+junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
+junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitExtVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoVersion" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

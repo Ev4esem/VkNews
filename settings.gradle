@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "VkNewsClient"
 include ':app'
-enableFeaturePreview("VERSION_CATALOGS")

@@ -1,6 +1,6 @@
 package com.sumin.vknewsclient.domain.model
 
-import com.sumin.vknewsclient.R
+import VkNewsClient.R
 
 data class PostComment(
     val id: Int,

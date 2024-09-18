@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.ui.screen.news
 
+import VkNewsClient.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.sumin.vknewsclient.R
 import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.domain.model.StatisticItem
 import com.sumin.vknewsclient.domain.model.StatisticType
@@ -94,18 +94,18 @@ private fun PostHeader(
         ) {
             Text(
                 text = feedPost.communityName,
-                color = MaterialTheme.colors.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = feedPost.publicationDate,
-                color = MaterialTheme.colors.onSecondary
+                color = MaterialTheme.colorScheme.onSecondary
             )
         }
         Icon(
             imageVector = Icons.Rounded.MoreVert,
             contentDescription = null,
-            tint = MaterialTheme.colors.onSecondary
+            tint = MaterialTheme.colorScheme.onSecondary
         )
     }
 }
@@ -159,7 +159,7 @@ private fun Statistics(
                 onItemClickListener = {
                     onLikeClickListener(likesItem)
                 },
-                tint = if (isFavourite) Red else MaterialTheme.colors.onSecondary
+                tint = if (isFavourite) Red else MaterialTheme.colorScheme.onSecondary
             )
         }
     }
@@ -184,7 +184,7 @@ private fun IconWithText(
     iconResId: Int,
     text: String,
     onItemClickListener: () -> Unit,
-    tint: Color = MaterialTheme.colors.onSecondary
+    tint: Color = MaterialTheme.colorScheme.onSecondary
 ) {
     Row(
         modifier = Modifier.clickable { onItemClickListener() },
@@ -199,7 +199,7 @@ private fun IconWithText(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
-            color = MaterialTheme.colors.onSecondary
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
 }

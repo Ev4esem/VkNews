@@ -1,12 +1,11 @@
 package com.sumin.vknewsclient.ui.screen.main
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +26,7 @@ fun MainScreen() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            NavigationBar {
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
 
                 val items = listOf(
@@ -41,7 +40,7 @@ fun MainScreen() {
                         it.route == item.screen.route
                     } ?: false
 
-                    BottomNavigationItem(
+                    NavigationBarItem(
                         selected = selected,
                         onClick = {
                             if (!selected) {
@@ -54,8 +53,6 @@ fun MainScreen() {
                         label = {
                             Text(text = stringResource(id = item.titleResId))
                         },
-                        selectedContentColor = MaterialTheme.colors.onPrimary,
-                        unselectedContentColor = MaterialTheme.colors.onSecondary
                     )
                 }
             }
@@ -86,13 +83,12 @@ fun MainScreen() {
 }
 
 @Composable
-private fun TextCounter(name : String) {
+private fun TextCounter(name: String) {
     var count by rememberSaveable {
         mutableStateOf(0)
     }
     Text(
-        modifier = Modifier.clickable { count ++ },
+        modifier = Modifier.clickable { count++ },
         text = "$name Count: $count",
     )
 }
-

@@ -8,6 +8,4 @@ interface NewsFeedRepository {
 
     suspend fun changeLikeStatus(feedPost: FeedPost)
 
-    fun getFeedPosts(): List<FeedPost>
-
 }

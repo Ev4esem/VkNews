@@ -50,15 +50,3 @@ fun FeedPosts(
         }
     }
 }
-
-@Preview
-@Composable
-private fun PreviewFeedPosts() {
-    PostCard(
-        feedPost = FeedPost.DEFAULT,
-        onLikeClickListener = {},
-        onShareClickListener = {},
-        onViewsClickListener = {},
-        onCommentClickListener = {}
-    )
-}

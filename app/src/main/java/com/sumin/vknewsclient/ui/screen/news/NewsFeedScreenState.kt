@@ -4,7 +4,10 @@ import com.sumin.vknewsclient.domain.model.FeedPost
 
 sealed class NewsFeedScreenState {
 
-    object Initial : NewsFeedScreenState()
+    data object Initial : NewsFeedScreenState()
 
     data class Posts(val posts: List<FeedPost>) : NewsFeedScreenState()
+
+    data object Loading : NewsFeedScreenState()
+
 }

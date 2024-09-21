@@ -1,6 +1,5 @@
 package com.sumin.vknewsclient.ui.screen.news
 
-import VkNewsClient.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +28,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.sumin.vknewsclient.R
+import com.sumin.vknewsclient.core.ThemePreviews
 import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.domain.model.StatisticItem
 import com.sumin.vknewsclient.domain.model.StatisticType
@@ -43,7 +45,8 @@ fun PostCard(
     onCommentClickListener: (StatisticItem) -> Unit
 ) {
     Card(
-        modifier = modifier
+        modifier = modifier,
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onBackground)
     ) {
         Column(
             modifier = Modifier.padding(8.dp)
@@ -202,4 +205,16 @@ private fun IconWithText(
             color = MaterialTheme.colorScheme.onSecondary
         )
     }
+}
+
+@ThemePreviews
+@Composable
+private fun PreviewFeedPosts() {
+    PostCard(
+        feedPost = FeedPost.DEFAULT,
+        onLikeClickListener = {},
+        onShareClickListener = {},
+        onViewsClickListener = {},
+        onCommentClickListener = {}
+    )
 }

@@ -24,5 +24,8 @@ fun NewsFeedScreen(
             )
         }
         NewsFeedScreenState.Initial -> {}
+        NewsFeedScreenState.Loading -> {
+            SkeletonFeed()
+        }
     }
 }

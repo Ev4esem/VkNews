@@ -15,7 +15,8 @@ private val DarkColorPalette = darkColorScheme(
     secondary = Black900,
     onPrimary = Color.White,
     onSecondary = Black500,
-    onSurface = Color.DarkGray
+    onSurface = Color.DarkGray,
+    background = Black600
 )
 
 @SuppressLint("ConflictingOnColor")
@@ -25,7 +26,8 @@ private val LightColorPalette = lightColorScheme(
     secondary = Color.White,
     onPrimary = Black900,
     onSecondary = Black500,
-    onSurface = Color.LightGray
+    onSurface = Color.LightGray,
+    background = Color.White
 )
 
 @Composable

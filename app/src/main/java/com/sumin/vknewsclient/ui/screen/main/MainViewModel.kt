@@ -1,37 +1,56 @@
 package com.sumin.vknewsclient.ui.screen.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sumin.vknewsclient.core.EffectHandler
+import com.sumin.vknewsclient.core.EventHandler
+import com.sumin.vknewsclient.ui.screen.main.login.AuthEffect
+import com.sumin.vknewsclient.ui.screen.main.login.AuthEvent
 import com.sumin.vknewsclient.ui.screen.main.login.AuthState
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.VKPreferencesKeyValueStorage
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.vk.id.VKID
+import com.vk.id.VKIDAuthFail
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class MainViewModel(
-    application: Application
-): AndroidViewModel(application) {
+class MainViewModel: ViewModel(), EffectHandler<AuthEffect>, EventHandler<AuthEvent> {
 
-    private val _authState = MutableLiveData<AuthState>(AuthState.Initial)
-    val authState: LiveData<AuthState> = _authState
+    private val _authState = MutableStateFlow<AuthState>(AuthState.NotAuthorized)
+    val authState: StateFlow<AuthState> = _authState
 
-    init {
-        val storage = VKPreferencesKeyValueStorage(application)
-        val token = VKAccessToken.restore(storage)
-        val loggedIn = token != null && token.isValid
-        _authState.value = if(loggedIn) AuthState.Authorized else AuthState.NotAuthorized()
+    override fun obtainEvent(event: AuthEvent) {
+        when(event) {
+            is AuthEvent.Fail -> vkAuthExceptionHandler(event.fail)
+            AuthEvent.Success -> onSuccess()
+        }
     }
 
-    fun performAuthResult(result: VKAuthenticationResult) {
-        if (result is VKAuthenticationResult.Success) {
-            _authState.value = AuthState.Authorized
-        } else {
-           val exception =  (result as VKAuthenticationResult.Failed).exception
-            _authState.value = AuthState.NotAuthorized(message = exception.message)
+    override val effectChannel: Channel<AuthEffect>
+        get() = Channel()
+
+    init {
+        val token = VKID.instance.accessToken?.idToken
+        val loggedIn = token != null
+        _authState.value = if (loggedIn) AuthState.Authorized else AuthState.NotAuthorized
+    }
+
+    private fun onSuccess() {
+        _authState.value = AuthState.Authorized
+    }
+
+    private fun vkAuthExceptionHandler(fail: VKIDAuthFail) {
+        viewModelScope.launch {
+            when (fail) {
+                is VKIDAuthFail.Canceled -> sendEffect(AuthEffect.ShowToast("Аутентификация отменена пользователем."))
+                is VKIDAuthFail.FailedApiCall -> sendEffect(AuthEffect.ShowToast("Ошибка вызова API. Попробуйте позже."))
+                is VKIDAuthFail.FailedOAuth -> sendEffect(AuthEffect.ShowToast("Ошибка аутентификации OAuth. Попробуйте еще раз."))
+                is VKIDAuthFail.FailedOAuthState -> sendEffect(AuthEffect.ShowToast("Некорректное состояние OAuth. Попробуйте еще раз."))
+                is VKIDAuthFail.FailedRedirectActivity -> sendEffect(AuthEffect.ShowToast("Не удалось перенаправить на страницу аутентификации."))
+                is VKIDAuthFail.NoBrowserAvailable -> sendEffect(AuthEffect.ShowToast("Нет доступного браузера для аутентификации. Установите браузер и повторите попытку."))
+            }
         }
     }
 

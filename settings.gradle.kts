@@ -1,8 +1,11 @@
+import java.net.URI
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven(url = "https://artifactory-external.vkpartner.ru/artifactory/vkid-sdk-android/")
     }
 }
 dependencyResolutionManagement {
@@ -10,7 +13,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = URI("https://artifactory-external.vkpartner.ru/artifactory/vkid-sdk-android/")
+        }
     }
 }
 rootProject.name = "VkNewsClient"
-include ':app'
+include(":app")

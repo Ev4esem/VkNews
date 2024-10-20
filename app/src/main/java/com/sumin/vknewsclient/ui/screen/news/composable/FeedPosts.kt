@@ -4,19 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.sumin.vknewsclient.domain.model.FeedPost
 
 @Composable
 fun FeedPosts(
-    viewModel: NewsFeedViewModel,
     paddingValues: PaddingValues,
-    posts: List<FeedPost>,
-    onCommentClickListener: (FeedPost) -> Unit
+    posts: LazyPagingItems<FeedPost>,
+    onCommentClickListener: (FeedPost) -> Unit,
+    onEvent: (NewsFeedEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.padding(paddingValues),
@@ -29,22 +28,23 @@ fun FeedPosts(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
-            items = posts,
-            key = { it.id }
-        ) { feedPost ->
+            count = posts.itemCount
+        ) { index ->
+            val feedPost =
+                posts[index] ?: throw IllegalArgumentException("Don't found this element in list")
             PostCard(
                 feedPost = feedPost,
                 onViewsClickListener = { statisticItem ->
-                    viewModel.updateCount(feedPost, statisticItem)
+                    onEvent(NewsFeedEvent.UpdateCount(feedPost,statisticItem))
                 },
                 onShareClickListener = { statisticItem ->
-                    viewModel.updateCount(feedPost, statisticItem)
+                    onEvent(NewsFeedEvent.UpdateCount(feedPost,statisticItem))
                 },
                 onCommentClickListener = {
                     onCommentClickListener(feedPost)
                 },
                 onLikeClickListener = { _ ->
-                    viewModel.changeLikeStatus(feedPost)
+                    onEvent(NewsFeedEvent.ChangeLikeStatus(feedPost))
                 },
             )
         }

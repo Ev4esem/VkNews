@@ -2,9 +2,9 @@ package com.sumin.vknewsclient.ui.screen.news
 
 import androidx.paging.PagingData
 import com.sumin.vknewsclient.domain.model.FeedPost
-import kotlinx.coroutines.flow.Flow
 
-data class NewsFeedScreenState(
+data class NewsFeedState(
     val loading: Boolean = false,
-    val posts: Flow<PagingData<FeedPost>>? = null
+    val loadState: PagingData<FeedPost> = PagingData.empty(),
+    val error: String? = null,
 )

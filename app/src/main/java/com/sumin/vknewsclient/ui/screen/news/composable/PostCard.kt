@@ -1,4 +1,4 @@
-package com.sumin.vknewsclient.ui.screen.news
+package com.sumin.vknewsclient.ui.screen.news.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

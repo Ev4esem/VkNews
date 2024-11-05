@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt.android)
     alias(libs.plugins.vk.id.sdk)
     alias(libs.plugins.ksp)
     id("kotlin-parcelize")
@@ -69,17 +70,24 @@ dependencies {
     implementation(libs.compose.foundation)
 
     implementation(libs.paging.runtime)
+
     implementation(libs.vk.id)
     implementation(libs.vk.id.multibranding.compose)
     implementation(libs.vk.id.one.tab.compose)
+
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
+
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
+    ksp(libs.room.compiler)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
     coreLibraryDesugaring(libs.desugar.jdk)
     debugImplementation(libs.ui.tooling)
-    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

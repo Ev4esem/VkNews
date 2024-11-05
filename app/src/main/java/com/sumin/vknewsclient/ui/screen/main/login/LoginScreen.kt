@@ -1,6 +1,7 @@
 package com.sumin.vknewsclient.ui.screen.main.login
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sumin.vknewsclient.R
 import com.sumin.vknewsclient.core.ThemePreviews
+import com.sumin.vknewsclient.ui.theme.VkNewsClientTheme
 import com.vk.id.AccessToken
 import com.vk.id.OAuth
 import com.vk.id.VKIDAuthFail
@@ -148,7 +150,7 @@ private fun LoginContent(
 @ThemePreviews
 @Composable
 private fun OAuthListWidgetWithTwoItems() {
-    MaterialTheme {
+    VkNewsClientTheme {
         LoginScreen {}
     }
 }

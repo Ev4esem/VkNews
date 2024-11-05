@@ -1,7 +1,5 @@
 package com.sumin.vknewsclient.ui.screen.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sumin.vknewsclient.core.EffectHandler
@@ -16,13 +14,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel(), EffectHandler<AuthEffect>, EventHandler<AuthEvent> {
+class MainViewModel : ViewModel(), EffectHandler<AuthEffect>, EventHandler<AuthEvent> {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.NotAuthorized)
     val authState: StateFlow<AuthState> = _authState
 
     override fun obtainEvent(event: AuthEvent) {
-        when(event) {
+        when (event) {
             is AuthEvent.Fail -> vkAuthExceptionHandler(event.fail)
             AuthEvent.Success -> onSuccess()
         }

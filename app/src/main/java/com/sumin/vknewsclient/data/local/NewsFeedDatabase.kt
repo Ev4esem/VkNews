@@ -11,7 +11,7 @@ import com.sumin.vknewsclient.data.local.entity.FeedPostEntity
     version = 1
 )
 @TypeConverters(StatisticItemEntityConverter::class)
-abstract class NewsFeedDatabase: RoomDatabase() {
+abstract class NewsFeedDatabase : RoomDatabase() {
 
     abstract val newsFeedDao: NewsFeedDao
 

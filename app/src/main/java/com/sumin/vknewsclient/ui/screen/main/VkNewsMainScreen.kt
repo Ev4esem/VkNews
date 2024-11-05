@@ -19,9 +19,14 @@ import com.sumin.vknewsclient.navigation.AppNavGraph
 import com.sumin.vknewsclient.navigation.rememberNavigationState
 import com.sumin.vknewsclient.ui.screen.comments.CommentsScreen
 import com.sumin.vknewsclient.ui.screen.news.NewsFeedScreen
+import com.sumin.vknewsclient.ui.screen.news.NewsFeedViewModel
+import com.sumin.vknewsclient.ui.screen.news.VkNewsResult
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    feedPostState: VkNewsResult,
+    viewModel: NewsFeedViewModel,
+) {
     val navigationState = rememberNavigationState()
 
     Scaffold(
@@ -65,7 +70,9 @@ fun MainScreen() {
                     paddingValues = paddingValues,
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)
-                    }
+                    },
+                    feedPostState = feedPostState,
+                    onEvent = viewModel::obtainEvent
                 )
             },
             commentsScreenContent = { feedPost ->

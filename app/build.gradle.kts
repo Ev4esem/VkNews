@@ -84,6 +84,7 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 
     coreLibraryDesugaring(libs.desugar.jdk)

@@ -55,20 +55,20 @@ fun LoginScreen(
             LoginContent(
                 paddingValues = it,
                 context = context,
-                onAuth = { oAuth, accessToken ->
+                onAuth = { _, _ ->
                     onEvent(AuthEvent.Success)
                 },
-                onFail = { oAuth, fail ->
+                onFail = { _, fail ->
                     onEvent(AuthEvent.Fail(fail))
                }
             )
         },
         bottomBar = {
             BottomBar(
-                onAuth = { oAuth, accessToken ->
+                onAuth = { _, _ ->
                     onEvent(AuthEvent.Success)
                 },
-                onFail = { oAuth, fail ->
+                onFail = { _, fail ->
                     onEvent(AuthEvent.Fail(fail))
                 },
                 context = context,
@@ -94,7 +94,7 @@ private fun BottomBar(
         ),
         oAuths = setOf(OAuth.MAIL, OAuth.OK),
         authParams = VKIDAuthUiParams {
-            scopes = setOf("friends, wall")
+            scopes = setOf("$FRIENDS_PERMISSION, $WALL_PERMISSION")
         },
     )
 }
@@ -141,11 +141,14 @@ private fun LoginContent(
             onFail = onFail,
             style = OneTapStyle.system(context = context),
             authParams = VKIDAuthUiParams {
-                scopes = setOf("friends, wall")
+                scopes = setOf("$FRIENDS_PERMISSION, $WALL_PERMISSION")
             }
         )
     }
 }
+
+private const val FRIENDS_PERMISSION = "friends"
+private const val WALL_PERMISSION = "wall"
 
 @ThemePreviews
 @Composable

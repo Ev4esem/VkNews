@@ -15,16 +15,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.paging.compose.LazyPagingItems
+import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.navigation.AppNavGraph
 import com.sumin.vknewsclient.navigation.rememberNavigationState
 import com.sumin.vknewsclient.ui.screen.comments.CommentsScreen
 import com.sumin.vknewsclient.ui.screen.news.NewsFeedScreen
 import com.sumin.vknewsclient.ui.screen.news.NewsFeedViewModel
-import com.sumin.vknewsclient.ui.screen.news.VkNewsResult
 
 @Composable
 fun MainScreen(
-    feedPostState: VkNewsResult,
+    feedPostState: LazyPagingItems<FeedPost>,
     viewModel: NewsFeedViewModel,
 ) {
     val navigationState = rememberNavigationState()
@@ -72,7 +73,7 @@ fun MainScreen(
                         navigationState.navigateToComments(it)
                     },
                     feedPostState = feedPostState,
-                    onEvent = viewModel::obtainEvent
+                    onEvent = viewModel::obtainEvent,
                 )
             },
             commentsScreenContent = { feedPost ->

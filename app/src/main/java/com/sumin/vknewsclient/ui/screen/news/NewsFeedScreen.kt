@@ -2,70 +2,46 @@ package com.sumin.vknewsclient.ui.screen.news
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
-import com.sumin.vknewsclient.core.ThemePreviews
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.ui.screen.news.composable.ErrorScreen
 import com.sumin.vknewsclient.ui.screen.news.composable.FeedPosts
+import com.sumin.vknewsclient.ui.screen.news.composable.PagingLoading
 import com.sumin.vknewsclient.ui.screen.news.composable.SkeletonFeed
 
 @Composable
 fun NewsFeedScreen(
-    paddingValues: PaddingValues,
-    feedPostState: VkNewsResult,
-    onCommentClickListener: (FeedPost) -> Unit,
-    onEvent: (NewsFeedEvent) -> Unit,
+    paddingValues : PaddingValues,
+    feedPostState : LazyPagingItems<FeedPost>,
+    onCommentClickListener : (FeedPost) -> Unit,
+    onEvent : (NewsFeedEvent) -> Unit,
 ) {
-    when(feedPostState) {
-        is VkNewsResult.Error -> {
+    when (feedPostState.loadState.refresh) {
+        is LoadState.Error -> {
             ErrorScreen(
-                onRefresh = {}
+                onRefresh = {
+                    feedPostState.refresh()
+                }
             )
         }
-        is VkNewsResult.Loading -> {
+
+        is LoadState.Loading -> {
             SkeletonFeed()
         }
-        is VkNewsResult.Success<*> -> {
-            feedPostState.data.filterIsInstance<FeedPost>().let {
-                FeedPosts(
-                    paddingValues = paddingValues,
-                    posts = it,
-                    onCommentClickListener = onCommentClickListener,
-                    onEvent = onEvent,
-                )
-            }
+
+        is LoadState.NotLoading -> {
+            FeedPosts(
+                paddingValues = paddingValues,
+                posts = feedPostState.itemSnapshotList.items,
+                onCommentClickListener = onCommentClickListener,
+                onEvent = onEvent,
+                onLoadingContent = {
+                    if (feedPostState.loadState.append is LoadState.Loading) {
+                        PagingLoading()
+                    }
+                },
+            )
         }
     }
-}
-
-
-private class NewsFeedScreenPreviewProvider : PreviewParameterProvider<VkNewsResult> {
-    override val values: Sequence<VkNewsResult>
-        get() = sequenceOf(
-            VkNewsResult.Loading,
-            VkNewsResult.Error("Error"),
-            VkNewsResult.Success(
-                data = listOf(
-                    FeedPost.DEFAULT,
-                    FeedPost.DEFAULT,
-                    FeedPost.DEFAULT,
-                )
-            )
-        )
-}
-
-@Composable
-@ThemePreviews
-private fun NewsFeedScreenPreview(
-    @PreviewParameter(NewsFeedScreenPreviewProvider::class)
-    feedPostState: VkNewsResult
-) {
-    NewsFeedScreen(
-        paddingValues = PaddingValues(20.dp),
-        feedPostState = feedPostState,
-        onCommentClickListener = {},
-        onEvent = {}
-    )
 }

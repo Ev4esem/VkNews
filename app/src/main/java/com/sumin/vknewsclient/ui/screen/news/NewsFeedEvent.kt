@@ -9,4 +9,6 @@ sealed interface NewsFeedEvent {
 
     data class ChangeLikeStatus(val feedPost: FeedPost): NewsFeedEvent
 
+    data object PullToRefresh : NewsFeedEvent
+
 }

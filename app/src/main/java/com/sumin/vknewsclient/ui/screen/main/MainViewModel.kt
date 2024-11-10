@@ -22,7 +22,7 @@ class MainViewModel : ViewModel(), EffectHandler<AuthEffect>, EventHandler<AuthE
     override fun obtainEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.Fail -> vkAuthExceptionHandler(event.fail)
-            AuthEvent.Success -> onSuccess()
+            is AuthEvent.Success -> onSuccess()
         }
     }
 
@@ -30,9 +30,8 @@ class MainViewModel : ViewModel(), EffectHandler<AuthEffect>, EventHandler<AuthE
         get() = Channel()
 
     init {
-        val token = VKID.instance.accessToken?.idToken
-        val loggedIn = token != null
-        _authState.value = if (loggedIn) AuthState.Authorized else AuthState.NotAuthorized
+        val token = VKID.instance.accessToken
+        _authState.value = if (token != null) AuthState.Authorized else AuthState.NotAuthorized
     }
 
     private fun onSuccess() {

@@ -4,6 +4,7 @@ package com.sumin.vknewsclient.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
+import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
@@ -13,37 +14,35 @@ import com.sumin.vknewsclient.data.local.entity.FeedPostEntity
 import com.sumin.vknewsclient.data.mapper.mapResponseToPosts
 import com.sumin.vknewsclient.data.mapper.toFeedPostListEntity
 import com.sumin.vknewsclient.data.network.ApiService
-import com.sumin.vknewsclient.data.network.model.NewsFeedResponseDto
-import com.sumin.vknewsclient.domain.model.FeedPost
 import com.vk.id.VKID
 import okio.IOException
-import java.util.concurrent.TimeUnit
+import java.lang.Exception
 
 class NewsFeedRemoteMediator(
-    private val newsApi: ApiService,
-    private val newsFeedDb: NewsFeedDatabase,
+    private val newsApi : ApiService,
+    private val newsFeedDb : NewsFeedDatabase,
 ) : RemoteMediator<Int, FeedPostEntity>() {
 
-    private var nextFrom: String? = null
+    private var nextFrom : String? = null
     private val token = VKID.instance.accessToken?.token
+        ?: throw IllegalArgumentException("Token shouldn't be equals null")
 
-    override suspend fun initialize(): InitializeAction {
+    override suspend fun initialize() : InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, FeedPostEntity>
-    ): MediatorResult {
+        loadType : LoadType,
+        state : PagingState<Int, FeedPostEntity>
+    ) : MediatorResult {
         if (loadType == LoadType.PREPEND) return MediatorResult.Success(endOfPaginationReached = true)
-
         return try {
             val startFrom = nextFrom
             val newsFeedResponse = if (startFrom == null) {
-                newsApi.loadNewsFeedResponse(token = getAccessToken(), 20)
+                newsApi.loadNewsFeedResponse(token = token, 20)
             } else {
                 newsApi.loadNewsFeedResponse(
-                    token = getAccessToken(),
+                    token = token,
                     startFrom = startFrom,
                     count = 20
                 )
@@ -59,15 +58,29 @@ class NewsFeedRemoteMediator(
                 newsFeedDb.newsFeedDao.upsertAll(newsFeedItems.toFeedPostListEntity())
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        } catch (e: IOException) {
-            MediatorResult.Error(e)
-        } catch (e: HttpException) {
-            MediatorResult.Error(e)
+        } catch (e : IOException) {
+            getDataDependOnCachedData(
+                newsFeedDb = newsFeedDb,
+                exception = e,
+            )
+        } catch (e : HttpException) {
+            getDataDependOnCachedData(
+                newsFeedDb = newsFeedDb,
+                exception = e,
+            )
         }
     }
 
-    private fun getAccessToken(): String {
-        return token ?: throw IllegalArgumentException("Token shouldn't be equals null")
+    private suspend fun getDataDependOnCachedData(
+        newsFeedDb : NewsFeedDatabase,
+        exception : Exception
+    ) : MediatorResult {
+        val pagingSource = newsFeedDb.newsFeedDao.pagingSource()
+        val cachedData = pagingSource.load(PagingSource.LoadParams.Refresh(0, 20, false))
+        return if (cachedData is PagingSource.LoadResult.Page) {
+            MediatorResult.Success(endOfPaginationReached = false)
+        } else {
+            MediatorResult.Error(exception)
+        }
     }
-
 }

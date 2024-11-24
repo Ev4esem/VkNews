@@ -3,8 +3,10 @@ package com.sumin.vknewsclient.data.mapper
 import com.sumin.vknewsclient.data.local.entity.FeedPostEntity
 import com.sumin.vknewsclient.data.local.entity.StatisticItemEntity
 import com.sumin.vknewsclient.data.local.entity.StatisticTypeEntity
+import com.sumin.vknewsclient.data.network.model.CommentsResponseDto
 import com.sumin.vknewsclient.data.network.model.NewsFeedResponseDto
 import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.PostComment
 import com.sumin.vknewsclient.domain.model.StatisticItem
 import com.sumin.vknewsclient.domain.model.StatisticType
 import java.text.SimpleDateFormat
@@ -15,9 +17,9 @@ import kotlin.math.absoluteValue
 fun NewsFeedResponseDto.mapResponseToPosts(): List<FeedPost> {
     val result = mutableListOf<FeedPost>()
     val posts = this.newsFeedContentDto.posts
-    val group = this.newsFeedContentDto.groups
+    val groups = this.newsFeedContentDto.groups
     for (post in posts) {
-        val group = group.find { it.id == post.communityId.absoluteValue } ?: break
+        val group = groups.find { it.id == post.communityId.absoluteValue } ?: break
         val feedPost = FeedPost(
             id = post.id,
             communityName = group.name,
@@ -35,6 +37,24 @@ fun NewsFeedResponseDto.mapResponseToPosts(): List<FeedPost> {
             communityId = post.communityId,
         )
         result.add(feedPost)
+    }
+    return result
+}
+
+fun CommentsResponseDto.toComments(): List<PostComment> {
+    val result = mutableListOf<PostComment>()
+    val comments = content.comments
+    val profiles = content.profiles
+    for (comment in comments) {
+        val author = profiles.firstOrNull { it.id == comment.authorId } ?: continue
+        val postComment = PostComment(
+            id = comment.id,
+            authorName = "${author.firstName} ${author.lastName}",
+            authorAvatarUrl = author.avatarUrl,
+            commentText = comment.text,
+            publicationDate = comment.date.mapTimestampToDate(),
+        )
+        result.add(postComment)
     }
     return result
 }

@@ -76,12 +76,11 @@ fun MainScreen(
                     onEvent = viewModel::obtainEvent,
                 )
             },
-            commentsScreenContent = { feedPost ->
+            commentsScreenContent = {
                 CommentsScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    feedPost = feedPost
                 )
             },
             favouriteScreenContent = { TextCounter(name = "Favourite") },

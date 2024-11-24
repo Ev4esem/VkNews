@@ -3,12 +3,16 @@ package com.sumin.vknewsclient.ui.screen.comments
 import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.domain.model.PostComment
 
-sealed class CommentsScreenState {
+sealed interface CommentsScreenState {
 
-    object Initial : CommentsScreenState()
+    data object Loading : CommentsScreenState
 
-    data class Comments(
+    data object Error : CommentsScreenState
+
+    data object Empty : CommentsScreenState
+
+    data class Success(
         val feedPost: FeedPost,
         val comments: List<PostComment>
-    ) : CommentsScreenState()
+    ) : CommentsScreenState
 }

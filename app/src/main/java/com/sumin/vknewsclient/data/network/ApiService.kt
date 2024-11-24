@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.data.network
 
+import com.sumin.vknewsclient.data.network.model.CommentsResponseDto
 import com.sumin.vknewsclient.data.network.model.LikesCountResponse
 import com.sumin.vknewsclient.data.network.model.NewsFeedResponseDto
 import retrofit2.http.GET
@@ -12,6 +13,13 @@ interface ApiService {
         @Query("access_token") token: String,
         @Query("count") count: Int,
     ): NewsFeedResponseDto
+
+    @GET("wall.getComments?v=5.131&extended=1&fields=photo_100")
+    suspend fun getCommentsByPost(
+        @Query("access_token") token : String,
+        @Query("owner_id") ownerId : Long,
+        @Query("post_id") postId : Long,
+    ): CommentsResponseDto
 
     @GET("newsfeed.getRecommended?v=5.131")
     suspend fun loadNewsFeedResponse(

@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.ui.screen.comments
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,9 +49,16 @@ fun CommentsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.comments_title),
+                        fontSize = 20.sp,
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
+                    IconButton(
+                        onClick = { onBackPressed() },
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null
@@ -69,7 +77,8 @@ fun CommentsScreen(
                         start = 8.dp,
                         end = 8.dp,
                         bottom = 90.dp
-                    )
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(
                         items = currentState.comments,
@@ -107,7 +116,7 @@ fun CommentsScreen(
 }
 
 @Composable
-private fun CommentsScreenEmpty(
+fun CommentsScreenEmpty(
     modifier : Modifier = Modifier,
 ) {
     Box(

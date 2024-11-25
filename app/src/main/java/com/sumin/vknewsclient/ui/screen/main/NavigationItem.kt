@@ -19,11 +19,6 @@ sealed class NavigationItem(
         titleResId = R.string.navigation_item_home,
         icon = Icons.Default.Home
     )
-    data object Favourite: NavigationItem(
-        screen = Screen.Favourite,
-        titleResId = R.string.navigation_item_favorite,
-        icon = Icons.Default.Favorite
-    )
     data object Profile: NavigationItem(
         screen = Screen.Profile,
         titleResId = R.string.navigation_item_profile,

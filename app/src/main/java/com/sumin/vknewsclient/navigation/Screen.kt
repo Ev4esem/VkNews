@@ -9,7 +9,6 @@ sealed class Screen(
 ) {
 
     data object NewsFeed : Screen(ROUTE_NEWS_FEED)
-    data object Favourite : Screen(ROUTE_FAVOURITE)
     data object Profile : Screen(ROUTE_PROFILE)
     data object Home : Screen(ROUTE_HOME)
 

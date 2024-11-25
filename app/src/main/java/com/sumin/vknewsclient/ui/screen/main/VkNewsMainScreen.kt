@@ -37,7 +37,6 @@ fun MainScreen(
 
                 val items = listOf(
                     NavigationItem.Home,
-                    NavigationItem.Favourite,
                     NavigationItem.Profile
                 )
                 items.forEach { item ->
@@ -83,7 +82,6 @@ fun MainScreen(
                     },
                 )
             },
-            favouriteScreenContent = { TextCounter(name = "Favourite") },
             profileScreenContent = { TextCounter(name = "Profile") }
         )
     }

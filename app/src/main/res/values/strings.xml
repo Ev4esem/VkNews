@@ -8,5 +8,6 @@
     <string name="enter">Войти</string>
     <string name="error">Упс.. что то пошло не так</string>
     <string name="comments_screen_empty_state">Нет комментов</string>
+    <string name="comments_title">Комментарии</string>
     <string name="refresh">Попробовать снова</string>
 </resources>

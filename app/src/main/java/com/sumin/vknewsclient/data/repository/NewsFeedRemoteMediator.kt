@@ -12,7 +12,7 @@ import coil.network.HttpException
 import com.sumin.vknewsclient.VkNewsApp
 import com.sumin.vknewsclient.data.local.NewsFeedDatabase
 import com.sumin.vknewsclient.data.local.entity.FeedPostEntity
-import com.sumin.vknewsclient.data.mapper.mapResponseToPosts
+import com.sumin.vknewsclient.data.mapper.toPosts
 import com.sumin.vknewsclient.data.mapper.toFeedPostListEntity
 import com.sumin.vknewsclient.data.network.ApiService
 import okio.IOException
@@ -46,7 +46,7 @@ class NewsFeedRemoteMediator(
                 )
             }
             nextFrom = newsFeedResponse.newsFeedContentDto.nextFrom
-            val newsFeedItems = newsFeedResponse.mapResponseToPosts()
+            val newsFeedItems = newsFeedResponse.toPosts()
             val endOfPaginationReached = newsFeedItems.isEmpty()
 
             newsFeedDb.withTransaction {

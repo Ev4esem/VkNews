@@ -54,7 +54,6 @@ class CommentsViewModel @Inject constructor(
                         _screenState.value = CommentsScreenState.Empty
                     } else {
                         _screenState.value = CommentsScreenState.Success(
-                            feedPost = feedPost,
                             comments = comments,
                         )
                     }

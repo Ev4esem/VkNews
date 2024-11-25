@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.ui.screen.news.composable
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -61,7 +62,8 @@ fun PostCard(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 200.dp)
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .animateContentSize(),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
             )

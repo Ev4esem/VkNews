@@ -14,7 +14,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.absoluteValue
 
-fun NewsFeedResponseDto.mapResponseToPosts(): List<FeedPost> {
+fun NewsFeedResponseDto.toPosts(): List<FeedPost> {
     val result = mutableListOf<FeedPost>()
     val posts = this.newsFeedContentDto.posts
     val groups = this.newsFeedContentDto.groups
@@ -46,6 +46,7 @@ fun CommentsResponseDto.toComments(): List<PostComment> {
     val comments = content.comments
     val profiles = content.profiles
     for (comment in comments) {
+        if (comment.text.isBlank()) continue
         val author = profiles.firstOrNull { it.id == comment.authorId } ?: continue
         val postComment = PostComment(
             id = comment.id,

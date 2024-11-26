@@ -4,9 +4,13 @@ import com.sumin.vknewsclient.VkNewsApp
 import com.sumin.vknewsclient.data.local.NewsFeedDatabase
 import com.sumin.vknewsclient.data.mapper.toComments
 import com.sumin.vknewsclient.data.mapper.toFeedPostEntity
+import com.sumin.vknewsclient.data.mapper.toFriends
+import com.sumin.vknewsclient.data.mapper.toProfile
 import com.sumin.vknewsclient.data.network.ApiService
 import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.Friend
 import com.sumin.vknewsclient.domain.model.PostComment
+import com.sumin.vknewsclient.domain.model.Profile
 import com.sumin.vknewsclient.domain.model.StatisticItem
 import com.sumin.vknewsclient.domain.model.StatisticType
 import com.sumin.vknewsclient.domain.repository.NewsFeedRepository
@@ -52,5 +56,19 @@ class NewsFeedRepositoryImpl @Inject constructor(
              postId = feedPost.id,
          ).toComments()
          emit(comments)
+    }
+
+    override fun getProfileInfo() : Flow<Profile> = flow {
+        val profile = apiService.getProfileInfo(
+            token = VkNewsApp().getUserToken()
+        ).toProfile()
+        emit(profile)
+    }
+
+    override fun getFriends() : Flow<List<Friend>> = flow {
+        val friends = apiService.getFriends(
+            token = VkNewsApp().getUserToken()
+        ).toFriends()
+        emit(friends)
     }
 }

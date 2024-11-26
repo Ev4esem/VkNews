@@ -10,4 +10,9 @@
     <string name="comments_screen_empty_state">Нет комментов</string>
     <string name="comments_title">Комментарии</string>
     <string name="refresh">Попробовать снова</string>
+    <string name="profile_screen_title_for_gender">Пол:</string>
+    <string name="profile_screen_title_for_city">Город:</string>
+    <string name="profile_screen_title_for_data">Год рождения:</string>
+    <string name="profile_screen_title_for_number">Номер телефона:</string>
+    <string name="profile_screen_title_for_friends">Друзья</string>
 </resources>

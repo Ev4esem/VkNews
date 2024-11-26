@@ -3,6 +3,8 @@ package com.sumin.vknewsclient.data.network
 import com.sumin.vknewsclient.data.network.model.CommentsResponseDto
 import com.sumin.vknewsclient.data.network.model.LikesCountResponse
 import com.sumin.vknewsclient.data.network.model.NewsFeedResponseDto
+import com.sumin.vknewsclient.data.network.model.profile.ResponseProfileDto
+import com.sumin.vknewsclient.data.network.model.profile.ResponseFriendsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -41,5 +43,15 @@ interface ApiService {
         @Query("owner_id") ownerId: Long,
         @Query("item_id") postId: Long
     ): LikesCountResponse
+
+    @GET("friends.get?v=5.131&fields=photo_100")
+    suspend fun getFriends(
+        @Query("access_token") token: String,
+    ): ResponseFriendsDto
+
+    @GET("account.getProfileInfo?v=5.131")
+    suspend fun getProfileInfo(
+        @Query("access_token") token: String,
+    ): ResponseProfileDto
 
 }

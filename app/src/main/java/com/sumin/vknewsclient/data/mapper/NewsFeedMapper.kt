@@ -5,8 +5,13 @@ import com.sumin.vknewsclient.data.local.entity.StatisticItemEntity
 import com.sumin.vknewsclient.data.local.entity.StatisticTypeEntity
 import com.sumin.vknewsclient.data.network.model.CommentsResponseDto
 import com.sumin.vknewsclient.data.network.model.NewsFeedResponseDto
+import com.sumin.vknewsclient.data.network.model.profile.ResponseFriendsDto
+import com.sumin.vknewsclient.data.network.model.profile.ResponseProfileDto
 import com.sumin.vknewsclient.domain.model.FeedPost
+import com.sumin.vknewsclient.domain.model.Friend
+import com.sumin.vknewsclient.domain.model.Gender
 import com.sumin.vknewsclient.domain.model.PostComment
+import com.sumin.vknewsclient.domain.model.Profile
 import com.sumin.vknewsclient.domain.model.StatisticItem
 import com.sumin.vknewsclient.domain.model.StatisticType
 import java.text.SimpleDateFormat
@@ -39,6 +44,34 @@ fun NewsFeedResponseDto.toPosts(): List<FeedPost> {
         result.add(feedPost)
     }
     return result
+}
+
+fun ResponseFriendsDto.toFriends(): List<Friend> {
+    val result = mutableListOf<Friend>()
+    val friends = this.response.friendsDto
+    for (friend in friends) {
+        val item = Friend(
+            avatarUrl = friend.photo100,
+            name = friend.firstName,
+        )
+        result.add(item)
+    }
+    return result
+}
+
+fun ResponseProfileDto.toProfile(): Profile = Profile(
+    name = "${responseProfileDto.firstName} ${responseProfileDto.lastName} ${responseProfileDto.status}",
+    avatarUrl = responseProfileDto.photo200,
+    gender = responseProfileDto.sex.toGender(),
+    date = responseProfileDto.bDate,
+    city = responseProfileDto.cityDto.title,
+    phone = responseProfileDto.phone,
+)
+
+private fun Int.toGender(): Gender = when(this) {
+    1 -> Gender.Female
+    2 -> Gender.Male
+    else -> Gender.Unknown
 }
 
 fun CommentsResponseDto.toComments(): List<PostComment> {

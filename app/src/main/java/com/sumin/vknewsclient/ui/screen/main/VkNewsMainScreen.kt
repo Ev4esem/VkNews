@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.ui.screen.main
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -9,14 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
+import com.sumin.vknewsclient.core.ObserveEffect
 import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.navigation.AppNavGraph
 import com.sumin.vknewsclient.navigation.rememberNavigationState
 import com.sumin.vknewsclient.ui.screen.comments.CommentsScreen
+import com.sumin.vknewsclient.ui.screen.news.NewsFeedEffect
 import com.sumin.vknewsclient.ui.screen.news.NewsFeedScreen
 import com.sumin.vknewsclient.ui.screen.news.NewsFeedViewModel
 import com.sumin.vknewsclient.ui.screen.profile.ProfileScreen
@@ -64,6 +68,14 @@ fun MainScreen(
         AppNavGraph(
             navHostController = navigationState.navHostController,
             newsFeedScreenContent = {
+                val context = LocalContext.current
+                ObserveEffect(viewModel.effectFlow) { effect ->
+                    when (effect) {
+                        is NewsFeedEffect.ShowToast -> {
+                            Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
                 NewsFeedScreen(
                     paddingValues = paddingValues,
                     onCommentClickListener = {

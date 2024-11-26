@@ -1,10 +1,12 @@
 package com.sumin.vknewsclient.ui.screen.news
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.sumin.vknewsclient.core.EffectHandler
 import com.sumin.vknewsclient.core.EventHandler
 import com.sumin.vknewsclient.data.local.entity.FeedPostEntity
 import com.sumin.vknewsclient.data.mapper.toFeedPost
@@ -12,6 +14,7 @@ import com.sumin.vknewsclient.domain.model.FeedPost
 import com.sumin.vknewsclient.domain.repository.NewsFeedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -22,9 +25,11 @@ import javax.inject.Inject
 class NewsFeedViewModel @Inject constructor(
     private val repository : NewsFeedRepository,
     pager : Pager<Int, FeedPostEntity>
-) : ViewModel(), EventHandler<NewsFeedEvent> {
+) : ViewModel(), EventHandler<NewsFeedEvent>, EffectHandler<NewsFeedEffect> {
 
     private var refreshTrigger = MutableStateFlow(false)
+
+    override val effectChannel : Channel<NewsFeedEffect> = Channel()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     var feedPostPagingFlow = refreshTrigger
@@ -47,7 +52,16 @@ class NewsFeedViewModel @Inject constructor(
 
     private fun changeLikeStatus(feedPost : FeedPost) {
         viewModelScope.launch {
-            repository.changeLikeStatus(feedPost)
+            try {
+                repository.changeLikeStatus(feedPost)
+            } catch (e: Exception) {
+                Log.d("ChangeLikeStatus", e.toString())
+                sendEffect(
+                    NewsFeedEffect.ShowToast(
+                        message = "У вас нет интернета"
+                    )
+                )
+            }
         }
     }
 
